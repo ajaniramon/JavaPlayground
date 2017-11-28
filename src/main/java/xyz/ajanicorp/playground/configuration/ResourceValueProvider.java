@@ -8,9 +8,13 @@ import org.springframework.stereotype.Component;
  * Created by Ajani on 03/10/2017.
  */
 @Component
-public class Configurator {
+public class ResourceValueProvider {
     @Value("${profileMessage}")
     String profileMessage;
+
+
+    @Value("${apiLogoUrl}")
+    String apiLogoUrl;
 
 
     @Bean(name="getProfileMessage")
@@ -18,5 +22,11 @@ public class Configurator {
         return profileMessage;
     }
 
-    public Configurator(){}
+    @Bean(name="getApiLogoUrl")
+    public String getApiLogoUrl() {
+        return apiLogoUrl;
+    }
+
+
+    public ResourceValueProvider(){}
 }

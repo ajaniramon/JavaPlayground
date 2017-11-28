@@ -1,0 +1,13 @@
+body{
+    background-color: black;
+    color: white;
+    font-family: 'Arial';
+}
+
+#logo{
+    text-align: center;
+}
+
+#title_message{
+    text-align: center;
+}
