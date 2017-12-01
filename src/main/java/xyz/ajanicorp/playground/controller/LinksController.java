@@ -75,4 +75,45 @@ public class LinksController {
                     ,HttpHeadersProvider.GetJsonHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping(PlaygroundConstants.LINKS_BASE_URL + "/{id}")
+    @ResponseBody
+    public ResponseEntity<String> deleteLink(@PathVariable int id){
+        try{
+            linkCrudService.delete(id);
+            return new ResponseEntity<String>(gson.toJson(
+                    new PlaygroundResult<Link>(PlaygroundStatusCodes.SUP)),
+                    HttpHeadersProvider.GetJsonHeaders(),HttpStatus.NO_CONTENT);
+        }catch (Exception e){
+            logger.error(Throwables.getStackTraceAsString(e));
+            return new ResponseEntity<String>(gson
+                    .toJson(new PlaygroundResult<String>(PlaygroundStatusCodes.DEADBEEF,
+                            PlaygroundConstants.DEADBEEF_TEXT))
+                    ,HttpHeadersProvider.GetJsonHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(PlaygroundConstants.LINKS_BASE_URL + "/{id}")
+    @ResponseBody
+    public ResponseEntity<String> getLink(@PathVariable int id){
+        List<Link> links = new ArrayList<>();
+        try{
+            Link link = linkCrudService.find(id);
+
+            if(link!=null)
+                links.add(link);
+
+            return new ResponseEntity<String>(gson.toJson(
+                new PlaygroundResult<List<Link>>(PlaygroundStatusCodes.SUP,links)),
+                HttpHeadersProvider.GetJsonHeaders(),HttpStatus.OK);
+
+        }catch (Exception e){
+            logger.error(Throwables.getStackTraceAsString(e));
+            return new ResponseEntity<String>(gson
+                    .toJson(new PlaygroundResult<String>(PlaygroundStatusCodes.DEADBEEF,
+                            PlaygroundConstants.DEADBEEF_TEXT))
+                    ,HttpHeadersProvider.GetJsonHeaders(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

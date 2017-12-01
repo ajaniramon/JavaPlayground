@@ -7,4 +7,5 @@ import xyz.ajanicorp.playground.domain.Link;
  */
 public interface LinkCrudService extends GenericCrudService<Link, Integer> {
     public Link findByCode(String code);
+
 }
