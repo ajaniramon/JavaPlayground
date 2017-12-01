@@ -63,27 +63,36 @@ dependencies {
 task('dockerize', type: Copy) {
 	def version = project.version.toString()
 
-	from('src/main/resources/docker-compose.yml')
-	into('docker')
-
-	from('src/main/resources/Playground_Dockerfile')
-	into('docker')
-
-
-	copy {
-		from 'build/libs/Playground-'+version+ '.jar'
-		into "docker"
+	copy{
+		from 'src/main/resources/docker-compose.yml'
+		into 'docker'
 	}
 
-	file("docker/Playground-"+version+".jar").renameTo(file("docker/playground.jar"))
 
-	from('src/main/resources/init_docker.bat')
-	into('docker')
+	copy{
+		from 'src/main/resources/Playground_Dockerfile'
+		into 'docker'
+	}
+
+	copy{
+		from 'src/main/resources/init_docker.bat'
+		into 'docker'
+	}
 
 }
 
 dockerize{
 	dependsOn build
+}
+
+task('dist',type:Copy){
+	from 'build/libs/Playground-'+version+ '.jar'
+	into 'docker'
+
+
+	rename { String fileName ->
+		fileName.replace("Playground-"+version+'.jar', "playground.jar")
+	}
 }
 
 dependencyManagement {
