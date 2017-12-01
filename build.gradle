@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-version = 'alpha1'
+version = '1.0.0'
 sourceCompatibility = 1.8
 
 repositories {
@@ -57,6 +57,33 @@ dependencies {
 	compile group: 'org.bouncycastle', name: 'bcmail-jdk15on', version: '1.58'
 
 
+}
+
+
+task('dockerize', type: Copy) {
+	def version = project.version.toString()
+
+	from('src/main/resources/docker-compose.yml')
+	into('docker')
+
+	from('src/main/resources/Playground_Dockerfile')
+	into('docker')
+
+
+	copy {
+		from 'build/libs/Playground-'+version+ '.jar'
+		into "docker"
+	}
+
+	file("docker/Playground-"+version+".jar").renameTo(file("docker/playground.jar"))
+
+	from('src/main/resources/init_docker.bat')
+	into('docker')
+
+}
+
+dockerize{
+	dependsOn build
 }
 
 dependencyManagement {

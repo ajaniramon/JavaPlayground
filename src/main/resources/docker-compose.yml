@@ -1,0 +1,24 @@
+version: '2.2'
+services:
+  db:
+      image: mysql
+      restart: always
+      networks:
+        - testnet
+      ports: 
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: AppAdding013
+        MYSQL_DATABASE: play
+  playground:
+    image: playground_app
+    restart: always
+    networks: 
+      - testnet
+    ports: 
+      - "8080:8080"
+    depends_on:
+      - db
+networks:
+  testnet:
+    driver: bridge
