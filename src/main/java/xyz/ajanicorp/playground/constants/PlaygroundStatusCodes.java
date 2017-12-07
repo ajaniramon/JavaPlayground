@@ -7,5 +7,8 @@ public enum PlaygroundStatusCodes {
     DEADBEEF,
     SUP,
     ALREADY_EXISTS,
+    NOT_EXISTS,
+    UNKNOWN,
+    ARGUMENT_VALIDATION_ERROR
 
 }
